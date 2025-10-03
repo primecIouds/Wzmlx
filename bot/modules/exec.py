@@ -29,6 +29,7 @@ def namespace_of(message):
 
 
 def log_input(message):
+    return
     LOGGER.info(
         f"IN: {message.text} (user={(message.from_user or message.sender_chat).id}, chat={message.chat.id})"
     )
@@ -40,7 +41,7 @@ async def send(msg, message):
             out_file.name = "output.txt"
             await send_file(message, out_file)
     else:
-        LOGGER.info(f"OUT: '{msg}'")
+        # LOGGER.info(f"OUT: '{msg}'")
         await send_message(message, f"<code>{msg}</code>")
 
 
@@ -68,7 +69,7 @@ async def do(func, message):
 
     chdir(getcwd())
     async with aiopen(ospath.join(getcwd(), "bot/modules/temp.txt"), "w") as temp:
-        await temp.write(body)
+        await temp.write("")
 
     stdout = StringIO()
 

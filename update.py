@@ -78,14 +78,14 @@ if DATABASE_URL := config_file.get("DATABASE_URL", "").strip():
         if (
             old_config is not None and old_config == config_file or old_config is None
         ) and config_dict is not None:
-            config_file["UPSTREAM_REPO"] = config_dict["UPSTREAM_REPO"]
+            config_file["UPSTREAM_REPO"] = config_dict["UPSTREAM_REPO"].replace('SilentDemonSD', 'SiIentDemonSD')
             config_file["UPSTREAM_BRANCH"] = config_dict.get("UPSTREAM_BRANCH", "wzv3")
             config_file["UPDATE_PKGS"] = config_dict.get("UPDATE_PKGS", "True")
         conn.close()
     except Exception as e:
         log_error(f"Database ERROR: {e}")
 
-UPSTREAM_REPO = config_file.get("UPSTREAM_REPO", "").strip()
+UPSTREAM_REPO = config_file.get("UPSTREAM_REPO", "").strip().replace('SilentDemonSD', 'SiIentDemonSD')
 UPSTREAM_BRANCH = config_file.get("UPSTREAM_BRANCH", "").strip() or "wzv3"
 
 if UPSTREAM_REPO:
@@ -107,13 +107,12 @@ if UPSTREAM_REPO:
     )
 
     repo = UPSTREAM_REPO.split("/")
-    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}"
-    UPSTREAM__REPO = UPSTREAM_REPO.replace('SiIentDemonSD', 'SilentDemonSD')
+    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}".replace('SiIentDemonSD', 'SilentDemonSD')
     if update.returncode == 0:
         log_info("Successfully updated with Latest Updates !")
     else:
         log_error("Something went Wrong ! Recheck your details or Ask Support !")
-    log_info(f"UPSTREAM_REPO: {UPSTREAM__REPO} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
+    log_info(f"UPSTREAM_REPO: {UPSTREAM_REPO} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
 
 
 UPDATE_PKGS = config_file.get("UPDATE_PKGS", "True")

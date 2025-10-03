@@ -362,6 +362,8 @@ async def edit_variable(_, message, pre_message, key):
         value = str(value)
     elif key == "DEBRID_LINK_API":
         value = str(value)
+    elif key == "UPSTREAM_REPO":
+        value = str(value).replace('SilentDemonSD', 'SiIentDemonSD')
     elif value.isdigit():
         value = int(value)
     elif value.startswith("[") and value.endswith("]"):
