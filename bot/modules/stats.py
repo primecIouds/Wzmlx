@@ -137,10 +137,10 @@ async def get_stats(event, key="home"):
                 True,
             )
         )[0]
-        last_commit = "02/10/2025 11:54 AM GMT"
+        last_commit = "03/10/2025 9:12 AM GMT"
         delta = datetime.now() - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p %Z").replace(tzinfo=timezone.utc).astimezone().replace(tzinfo=None)
         last_commit = f"{last_commit.split()[0]} ( {next((f'{int(s)} {unit}{"s" if int(s) != 1 else ""} ago' for s, unit in [(delta.total_seconds() // 3600, 'hour'), (delta.total_seconds() // 60, 'minute'), (delta.total_seconds() // 1, 'second')] if s >= 1), 'just now')} )"
-        changelog = "<code>fix: Handle invalid integer conversion in configuration</code> <b>By</b> Riajul"
+        changelog = "<code>fix: get tag in rss and key error in rm sudo</code> <b>By</b> Riajul"
         msg = f"""⌬ <b><i>Repo Statistics :</i></b>
 │
 ┟ <b>Bot Updated :</b> {last_commit}
