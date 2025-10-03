@@ -107,12 +107,13 @@ if UPSTREAM_REPO:
     )
 
     repo = UPSTREAM_REPO.split("/")
-    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}".replace('SiIentDemonSD', 'SilentDemonSD')
+    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}"
+    UPSTREAM__REPO = UPSTREAM_REPO.replace('SiIentDemonSD', 'SilentDemonSD')
     if update.returncode == 0:
         log_info("Successfully updated with Latest Updates !")
     else:
         log_error("Something went Wrong ! Recheck your details or Ask Support !")
-    log_info(f"UPSTREAM_REPO: {UPSTREAM_REPO} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
+    log_info(f"UPSTREAM_REPO: {UPSTREAM__REPO} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
 
 
 UPDATE_PKGS = config_file.get("UPDATE_PKGS", "True")
