@@ -300,6 +300,6 @@ def loop_thread(func):
 
 def safe_int(value, default=0):
     try:
-        return int(value)
+        return value
     except (ValueError, TypeError):
         return default
