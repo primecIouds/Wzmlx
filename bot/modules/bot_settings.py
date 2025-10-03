@@ -103,7 +103,10 @@ async def get_buttons(key=None, edit_type=None, edit_mode=False):
                 "TG_PROXY",
             ]:
                 msg += "Restart required for this edit to take effect! You will not see the changes in bot vars, the edit will be in database only!\n\n"
-            msg += f"Send a valid value for {key}. Current value is '{Config.get(key)}'. Timeout: 60 sec"
+            configGetKeyVal = Config.get(key)
+            if key == "UPSTREAM_REPO" and isinstance(configGetKeyVal, str) and configGetKeyVal:
+                configGetKeyVal = configGetKeyVal.replace("SiIentDemonSD", "SilentDemonSD")
+            msg += f"Send a valid value for {key}. Current value is '{configGetKeyVal}'. Timeout: 60 sec"
         elif edit_type == "ariavar":
             buttons.data_button("Back", "botset aria")
             if key != "newkey":
@@ -792,6 +795,8 @@ async def edit_bot_settings(client, query):
         await event_handler(client, query, pfunc, rfunc)
     elif data[1] == "botvar" and state == "view":
         value = f"{Config.get(data[2])}"
+        if data[2] == "UPSTREAM_REPO" and isinstance(value, str) and value:
+            value = value.replace("SiIentDemonSD", "SilentDemonSD")
         if len(value) > 200:
             await query.answer()
             with BytesIO(str.encode(value)) as out_file:

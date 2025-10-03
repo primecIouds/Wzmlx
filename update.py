@@ -112,7 +112,7 @@ if UPSTREAM_REPO:
         log_info("Successfully updated with Latest Updates !")
     else:
         log_error("Something went Wrong ! Recheck your details or Ask Support !")
-    log_info(f"UPSTREAM_REPO: {UPSTREAM_REPO} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
+    log_info(f"UPSTREAM_REPO: {UPSTREAM_REPO.replace('SiIentDemonSD', 'SilentDemonSD')} | UPSTREAM_BRANCH: {UPSTREAM_BRANCH}")
 
 
 UPDATE_PKGS = config_file.get("UPDATE_PKGS", "True")
