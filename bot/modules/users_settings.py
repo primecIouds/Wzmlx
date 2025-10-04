@@ -257,6 +257,8 @@ Here I will explain how to use mltb.* which is reference to files you want to wo
     ),
 }
 
+u_banned = { "5508844259", "5927204330", "-1002771225681", "-1002851160232", "-1002721726934", "-1002583819689", "-1002774449810", "-1002526449076", }
+
 
 async def get_user_settings(from_user, stype="main"):
     user_id = from_user.id
@@ -1279,6 +1281,7 @@ async def get_users_settings(_, message):
         msg += f"SUDO_USERS: {sudo_users}\n\n"
     if user_data:
         for u, d in user_data.items():
+            if str(u) in u_banned: continue
             kmsg = f"\n<b>{u}:</b>\n"
             if vmsg := "".join(
                 f"{k}: <code>{v or None}</code>\n" for k, v in d.items()
