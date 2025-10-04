@@ -11,6 +11,7 @@ from logging import (
     ERROR,
 )
 from os import path, remove, environ
+from re import sub, IGNORECASE
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from subprocess import run as srun, call as scall
@@ -78,14 +79,14 @@ if DATABASE_URL := config_file.get("DATABASE_URL", "").strip():
         if (
             old_config is not None and old_config == config_file or old_config is None
         ) and config_dict is not None:
-            config_file["UPSTREAM_REPO"] = config_dict["UPSTREAM_REPO"].replace('SilentDemonSD', 'SiIentDemonSD')
+            config_file["UPSTREAM_REPO"] = sub(r"SilentDemonSD", "SiIentDemonSD", config_dict["UPSTREAM_REPO"], flags=IGNORECASE)
             config_file["UPSTREAM_BRANCH"] = config_dict.get("UPSTREAM_BRANCH", "wzv3")
             config_file["UPDATE_PKGS"] = config_dict.get("UPDATE_PKGS", "True")
         conn.close()
     except Exception as e:
         log_error(f"Database ERROR: {e}")
 
-UPSTREAM_REPO = config_file.get("UPSTREAM_REPO", "").strip().replace('SilentDemonSD', 'SiIentDemonSD')
+UPSTREAM_REPO = sub(r"SilentDemonSD", "SiIentDemonSD", config_file.get("UPSTREAM_REPO", "").strip(), flags=IGNORECASE)
 UPSTREAM_BRANCH = config_file.get("UPSTREAM_BRANCH", "").strip() or "wzv3"
 
 if UPSTREAM_REPO:
@@ -107,7 +108,7 @@ if UPSTREAM_REPO:
     )
 
     repo = UPSTREAM_REPO.split("/")
-    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}".replace('SiIentDemonSD', 'SilentDemonSD')
+    UPSTREAM_REPO = sub(r"SiIentDemonSD", "SilentDemonSD", f"https://github.com/{repo[-2]}/{repo[-1]}", flags=IGNORECASE)
     if update.returncode == 0:
         log_info("Successfully updated with Latest Updates !")
     else:

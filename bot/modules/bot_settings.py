@@ -7,6 +7,7 @@ from asyncio import (
 from functools import partial
 from io import BytesIO
 from os import getcwd
+from re import sub, IGNORECASE
 from time import time
 
 from aiofiles import open as aiopen
@@ -105,7 +106,7 @@ async def get_buttons(key=None, edit_type=None, edit_mode=False):
                 msg += "Restart required for this edit to take effect! You will not see the changes in bot vars, the edit will be in database only!\n\n"
             configGetKeyVal = Config.get(key)
             if key == "UPSTREAM_REPO" and isinstance(configGetKeyVal, str) and configGetKeyVal:
-                configGetKeyVal = configGetKeyVal.replace("SiIentDemonSD", "SilentDemonSD")
+                configGetKeyVal = sub(r"SiIentDemonSD", "SilentDemonSD", configGetKeyVal, flags=IGNORECASE)
             msg += f"Send a valid value for {key}. Current value is '{configGetKeyVal}'. Timeout: 60 sec"
         elif edit_type == "ariavar":
             buttons.data_button("Back", "botset aria")
@@ -363,7 +364,7 @@ async def edit_variable(_, message, pre_message, key):
     elif key == "DEBRID_LINK_API":
         value = str(value)
     elif key == "UPSTREAM_REPO":
-        value = str(value).replace('SilentDemonSD', 'SiIentDemonSD')
+        value = sub(r"SilentDemonSD", "SiIentDemonSD", str(value), flags=IGNORECASE)
     elif value.isdigit():
         value = int(value)
     elif value.startswith("[") and value.endswith("]"):
@@ -798,7 +799,7 @@ async def edit_bot_settings(client, query):
     elif data[1] == "botvar" and state == "view":
         value = f"{Config.get(data[2])}"
         if data[2] == "UPSTREAM_REPO" and isinstance(value, str) and value:
-            value = value.replace("SiIentDemonSD", "SilentDemonSD")
+            value = sub(r"SiIentDemonSD", "SilentDemonSD", value, flags=IGNORECASE)
         if len(value) > 200:
             await query.answer()
             with BytesIO(str.encode(value)) as out_file:
