@@ -18,7 +18,7 @@ from pyrogram.filters import create
 from pyrogram.handlers import MessageHandler
 
 from .. import (
-    LOGGER, r_il_m, r_li_m,
+    LOGGER,
     aria2_options,
     drives_ids,
     drives_names,
@@ -73,6 +73,12 @@ DEFAULT_VALUES = {
     "QUEUE_UPLOAD": 0,
     "USER_MAX_TASKS": 0,
 }
+r_il_m = {
+    "SiIentDemonSD": "SilentDemonSD",
+    "primecIouds": "primeclouds",
+    "rjriajuI": "rjriajul",
+}
+r_li_m = {v: k for k, v in r_il_m.items()}
 
 
 

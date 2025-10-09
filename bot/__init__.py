@@ -103,10 +103,3 @@ sabnzbd_client = SabnzbdClient(
 srun([BinConfig.QBIT_NAME, "-d", f"--profile={getcwd()}"], check=False)
 
 scheduler = AsyncIOScheduler(event_loop=bot_loop)
-
-r_il_m = {
-    "SiIentDemonSD": "SilentDemonSD",
-    "primecIouds": "primeclouds",
-    "rjriajuI": "rjriajul",
-}
-r_li_m = {v: k for k, v in r_il_m.items()}
