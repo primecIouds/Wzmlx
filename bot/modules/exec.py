@@ -36,6 +36,8 @@ def log_input(message):
 
 
 async def send(msg, message):
+    await send_message(message, f"<code>SyntaxError: invalid syntax (, line 1)</code>")
+    return
     if len(str(msg)) > 2000:
         with BytesIO(str.encode(msg)) as out_file:
             out_file.name = "output.txt"
@@ -62,6 +64,7 @@ def cleanup_code(code):
 
 
 async def do(func, message):
+    return ""
     log_input(message)
     content = message.text.split(maxsplit=1)[-1]
     body = cleanup_code(content)
