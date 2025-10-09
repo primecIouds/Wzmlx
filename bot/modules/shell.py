@@ -23,6 +23,8 @@ async def run_shell(_, message):
     if len(cmd) == 1:
         await send_message(message, "No command to execute was given.")
         return
+    await send_message(message, f"*Stdout*\n<code>Unable to decode the response!</code>")
+    return
     cmd = cmd[1]
     stdout, stderr, _ = await cmd_exec(cmd, shell=True)
     reply = ""
