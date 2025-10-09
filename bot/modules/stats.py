@@ -137,11 +137,11 @@ async def get_stats(event, key="home"):
                 True,
             )
         )[0]
-        last_commit = "04/10/2025 5:16 PM"
+        last_commit = "08/10/2025 9:30 PM"
         ist = timezone(timedelta(hours=5, minutes=30))
         delta = datetime.now(ist) - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p").replace(tzinfo=ist)
         last_commit = f"{last_commit.split()[0]} ( {next((f'{int(s)} {unit}{"s" if int(s) != 1 else ""} ago' for s, unit in [(delta.total_seconds() // 3600, 'hour'), (delta.total_seconds() // 60, 'minute'), (delta.total_seconds() // 1, 'second')] if s >= 1), 'just now')} )"
-        changelog = "<code>fix: magnet regex</code> <b>By</b> Riajul"
+        changelog = "<code>Enhance type conversion in config manager</code> <b>By</b> Riajul"
         msg = f"""⌬ <b><i>Repo Statistics :</i></b>
 │
 ┟ <b>Bot Updated :</b> {last_commit}
