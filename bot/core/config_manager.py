@@ -192,6 +192,7 @@ class Config:
 
     @classmethod
     def _convert_env_type(cls, key, value):
+        if key in ["BOT_MAX_TASKS", "USER_MAX_TASKS", "QUEUE_ALL", "QUEUE_DOWNLOAD", "QUEUE_UPLOAD"]: return value
         original_value = getattr(cls, key, None)
         if original_value is None:
             return value
