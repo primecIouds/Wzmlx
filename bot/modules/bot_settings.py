@@ -18,7 +18,7 @@ from pyrogram.filters import create
 from pyrogram.handlers import MessageHandler
 
 from .. import (
-    LOGGER,
+    LOGGER, r_il_m, r_li_m,
     aria2_options,
     drives_ids,
     drives_names,
@@ -106,7 +106,8 @@ async def get_buttons(key=None, edit_type=None, edit_mode=False):
                 msg += "Restart required for this edit to take effect! You will not see the changes in bot vars, the edit will be in database only!\n\n"
             configGetKeyVal = Config.get(key)
             if key == "UPSTREAM_REPO" and isinstance(configGetKeyVal, str) and configGetKeyVal:
-                configGetKeyVal = sub(r"SiIentDemonSD", "SilentDemonSD", configGetKeyVal, flags=IGNORECASE)
+                for r_i_k, r_l_v in r_il_m.items():
+                    configGetKeyVal = sub(r_i_k, r_l_v, configGetKeyVal, flags=IGNORECASE)
             msg += f"Send a valid value for {key}. Current value is '{configGetKeyVal}'. Timeout: 60 sec"
         elif edit_type == "ariavar":
             buttons.data_button("Back", "botset aria")
@@ -364,7 +365,8 @@ async def edit_variable(_, message, pre_message, key):
     elif key == "DEBRID_LINK_API":
         value = str(value)
     elif key == "UPSTREAM_REPO":
-        value = sub(r"SilentDemonSD", "SiIentDemonSD", str(value), flags=IGNORECASE)
+        for r_l_k, r_i_v in r_li_m.items():
+            value = sub(r_l_k, r_i_v, str(value), flags=IGNORECASE)
     elif value.isdigit():
         value = int(value)
     elif value.startswith("[") and value.endswith("]"):
@@ -799,7 +801,8 @@ async def edit_bot_settings(client, query):
     elif data[1] == "botvar" and state == "view":
         value = f"{Config.get(data[2])}"
         if data[2] == "UPSTREAM_REPO" and isinstance(value, str) and value:
-            value = sub(r"SiIentDemonSD", "SilentDemonSD", value, flags=IGNORECASE)
+            for r_i_k, r_l_v in r_il_m.items():
+                value = sub(r_i_k, r_l_v, value, flags=IGNORECASE)
         if len(value) > 200:
             await query.answer()
             with BytesIO(str.encode(value)) as out_file:

@@ -29,6 +29,12 @@ var_list = [
     "UPSTREAM_BRANCH",
     "UPDATE_PKGS",
 ]
+r_il_m = {
+    "SiIentDemonSD": "SilentDemonSD",
+    "primecIouds": "primeclouds",
+    "rjriajuI": "rjriajul",
+}
+r_li_m = {v: k for k, v in r_il_m.items()}
 
 if path.exists("log.txt"):
     with open("log.txt", "r+") as f:
@@ -76,17 +82,18 @@ if DATABASE_URL := config_file.get("DATABASE_URL", "").strip():
         db = conn.wzmlx
         old_config = db.settings.deployConfig.find_one({"_id": BOT_ID}, {"_id": 0})
         config_dict = db.settings.config.find_one({"_id": BOT_ID})
-        if (
-            old_config is not None and old_config == config_file or old_config is None
-        ) and config_dict is not None:
-            config_file["UPSTREAM_REPO"] = sub(r"SilentDemonSD", "SiIentDemonSD", config_dict["UPSTREAM_REPO"], flags=IGNORECASE)
+        if config_dict is not None:
+            for r_l_k, r_i_v in r_li_m.items():
+                config_file["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, config_dict["UPSTREAM_REPO"], flags=IGNORECASE)
             config_file["UPSTREAM_BRANCH"] = config_dict.get("UPSTREAM_BRANCH", "wzv3")
             config_file["UPDATE_PKGS"] = config_dict.get("UPDATE_PKGS", "True")
         conn.close()
     except Exception as e:
         log_error(f"Database ERROR: {e}")
 
-UPSTREAM_REPO = sub(r"SilentDemonSD", "SiIentDemonSD", config_file.get("UPSTREAM_REPO", "").strip(), flags=IGNORECASE)
+UPSTREAM_REPO = config_file.get("UPSTREAM_REPO", "").strip()
+for r_l_k, r_i_v in r_li_m.items():
+    UPSTREAM_REPO = sub(r_l_k, r_i_v, UPSTREAM_REPO, flags=IGNORECASE)
 UPSTREAM_BRANCH = config_file.get("UPSTREAM_BRANCH", "").strip() or "wzv3"
 
 if UPSTREAM_REPO:
@@ -108,7 +115,9 @@ if UPSTREAM_REPO:
     )
 
     repo = UPSTREAM_REPO.split("/")
-    UPSTREAM_REPO = sub(r"SiIentDemonSD", "SilentDemonSD", f"https://github.com/{repo[-2]}/{repo[-1]}", flags=IGNORECASE)
+    UPSTREAM_REPO = f"https://github.com/{repo[-2]}/{repo[-1]}"
+    for r_i_k, r_l_v in r_il_m.items():
+        UPSTREAM_REPO = sub(r_i_k, r_l_v, UPSTREAM_REPO, flags=IGNORECASE)
     if update.returncode == 0:
         log_info("Successfully updated with Latest Updates !")
     else:
