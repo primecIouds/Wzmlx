@@ -3,6 +3,7 @@ from platform import platform, version
 from re import search as research
 from time import time
 from datetime import datetime, timedelta, timezone
+import math
 
 from aiofiles.os import path as aiopath
 from psutil import (
@@ -140,7 +141,18 @@ async def get_stats(event, key="home"):
         last_commit = "08/10/2025 9:30 PM"
         ist = timezone(timedelta(hours=5, minutes=30))
         delta = datetime.now(ist) - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p").replace(tzinfo=ist)
-        last_commit = f"{last_commit.split()[0]} ( {next((f'{int(s)} {unit}{"s" if int(s) != 1 else ""} ago' for s, unit in [(delta.total_seconds() // 3600, 'hour'), (delta.total_seconds() // 60, 'minute'), (delta.total_seconds() // 1, 'second')] if s >= 1), 'just now')} )"
+        delta_hrs = delta.total_seconds() / 3600
+
+        if delta_hrs < 1:
+            time_ago = "just now"
+        elif delta_hrs < 36:
+            hours = int(delta_hrs)
+            time_ago = f"{hours} hour{'s' if hours != 1 else ''} ago"
+        else:
+            days = math.ceil(delta_hrs / 24)
+            time_ago = f"{days} day{'s' if days != 1 else ''} ago"
+
+        last_commit = f"{last_commit.split()[0]} ( {time_ago} )"
         changelog = "<code>Enhance type conversion in config manager</code> <b>By</b> Riajul"
         msg = f"""⌬ <b><i>Repo Statistics :</i></b>
 │
