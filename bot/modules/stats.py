@@ -138,7 +138,7 @@ async def get_stats(event, key="home"):
                 True,
             )
         )[0]
-        last_commit = "11/10/2025 3:57 PM"
+        last_commit = "11/10/2025 6:27 PM"
         ist = timezone(timedelta(hours=5, minutes=30))
         delta = datetime.now(ist) - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p").replace(tzinfo=ist)
         delta_hrs = delta.total_seconds() / 3600
