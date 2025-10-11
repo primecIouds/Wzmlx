@@ -138,13 +138,15 @@ async def get_stats(event, key="home"):
                 True,
             )
         )[0]
-        last_commit = "08/10/2025 9:30 PM"
+        last_commit = "11/10/2025 2:43 PM"
         ist = timezone(timedelta(hours=5, minutes=30))
         delta = datetime.now(ist) - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p").replace(tzinfo=ist)
         delta_hrs = delta.total_seconds() / 3600
 
-        if delta_hrs < 1:
+        if (delta_hrs * 60) <= 1:
             time_ago = "just now"
+        elif delta_hrs < 1:
+            time_ago = f"{int(delta_hrs * 60)} minute{'s' if int(delta_hrs * 60) != 1 else ''} ago"
         elif delta_hrs < 36:
             hours = int(delta_hrs)
             time_ago = f"{hours} hour{'s' if hours != 1 else ''} ago"
@@ -153,7 +155,7 @@ async def get_stats(event, key="home"):
             time_ago = f"{days} day{'s' if days != 1 else ''} ago"
 
         last_commit = f"{last_commit.split()[0]} ( {time_ago} )"
-        changelog = "<code>Enhance type conversion in config manager</code> <b>By</b> Riajul"
+        changelog = "<code>Update requirements.txt</code> <b>By</b> primeclouds"
         msg = f"""⌬ <b><i>Repo Statistics :</i></b>
 │
 ┟ <b>Bot Updated :</b> {last_commit}
