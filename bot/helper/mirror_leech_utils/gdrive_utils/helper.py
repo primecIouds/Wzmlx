@@ -71,7 +71,7 @@ class GoogleDriveHelper:
 
     def authorize(self):
         credentials = None
-        if self.use_sa:
+        if False:
             json_files = listdir("accounts")
             self.sa_number = len(json_files)
             self.sa_index = randrange(self.sa_number)
@@ -82,7 +82,7 @@ class GoogleDriveHelper:
         elif ospath.exists(self.token_path):
             LOGGER.info(f"Authorize with {self.token_path}")
             with open(self.token_path, "rb") as f:
-                credentials = pload(f)
+                credentials = None
         else:
             LOGGER.error("token.pickle not found!")
         authorized_http = AuthorizedHttp(credentials, http=build_http())
