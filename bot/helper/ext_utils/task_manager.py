@@ -296,13 +296,13 @@ async def pre_task_check(message):
     bmax_tasks = CINT("BOT_MAX_TASKS")
     if bmax_tasks > 0 and len(await get_specific_tasks("All", False)) >= bmax_tasks:
         msg.append(
-            f"┠ Max Concurrent Bot's Tasks Limit exceeded.\n┠ Bot Tasks Limit : {bmax_tasks} task"
+            f"┠ Max Concurrent Bot's Tasks Limit exceeded.\n┠ Bot Tasks Limit : {bmax_tasks} task(s)"
         )
 
     maxtask = CINT("USER_MAX_TASKS")
     if maxtask > 0 and len(await get_specific_tasks("All", user_id)) >= maxtask:
         msg.append(
-            f"┠ Max Concurrent User's Task(s) Limit exceeded! \n┠ User Task Limit : {maxtask} tasks"
+            f"┠ Max Concurrent User's Task(s) Limit exceeded!\n┠ User Task Limit : {maxtask} task(s)"
         )
 
     token_msg, button = await verify_token(user_id, button)
