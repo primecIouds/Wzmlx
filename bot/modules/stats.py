@@ -138,7 +138,7 @@ async def get_stats(event, key="home"):
                 True,
             )
         )[0]
-        last_commit = "13/10/2025 2:29 PM"
+        last_commit = "14/10/2025 10:05 AM"
         ist = timezone(timedelta(hours=5, minutes=30))
         delta = datetime.now(ist) - datetime.strptime(last_commit, "%d/%m/%Y %I:%M %p").replace(tzinfo=ist)
         delta_hrs = delta.total_seconds() / 3600
@@ -155,7 +155,7 @@ async def get_stats(event, key="home"):
             time_ago = f"{days} day{'s' if days != 1 else ''} ago"
 
         last_commit = f"{last_commit.split()[0]} ( {time_ago} )"
-        changelog = "<code>Update __main__.py</code> <b>By</b> primeclouds"
+        changelog = "<code>Update config_manager.py</code> <b>By</b> primeclouds"
         msg = f"""⌬ <b><i>Repo Statistics :</i></b>
 │
 ┟ <b>Bot Updated :</b> {last_commit}
