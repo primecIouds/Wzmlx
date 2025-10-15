@@ -1,6 +1,13 @@
 from importlib import import_module
 from os import getenv
+from re import sub, IGNORECASE
 
+r_il_m = {
+    "SiIentDemonSD": "SilentDemonSD",
+    "primecIouds": "primeclouds",
+    "rjriajuI": "rjriajul",
+}
+r_li_m = {v: k for k, v in r_il_m.items()}
 
 class Config:
     AS_DOCUMENT = False
@@ -173,6 +180,9 @@ class Config:
                             continue
                     except Exception:
                         continue
+                elif attr == "UPSTREAM_REPO" and isinstance(value, str) and value:
+                    for r_l_k, r_i_v in r_li_m.items():
+                        value = sub(r_l_k, r_i_v, value, flags=IGNORECASE)
                 setattr(cls, attr, value)
         for key in ["BOT_TOKEN", "OWNER_ID", "TELEGRAM_API", "TELEGRAM_HASH"]:
             value = getattr(cls, key)
@@ -188,6 +198,9 @@ class Config:
             env_value = getenv(key)
             if env_value is not None:
                 converted_value = cls._convert_env_type(key, env_value)
+                if key == "UPSTREAM_REPO" and isinstance(converted_value, str) and converted_value:
+                    for r_l_k, r_i_v in r_li_m.items():
+                        converted_value = sub(r_l_k, r_i_v, converted_value, flags=IGNORECASE)
                 cls.set(key, converted_value)
 
     @classmethod
@@ -236,6 +249,9 @@ class Config:
                             value = []
                     except Exception:
                         value = []
+                elif key == "UPSTREAM_REPO" and isinstance(value, str) and value:
+                    for r_l_k, r_i_v in r_li_m.items():
+                        value = sub(r_l_k, r_i_v, value, flags=IGNORECASE)
                 value = cls._convert_env_type(key, value)
                 setattr(cls, key, value)
         for key in ["BOT_TOKEN", "OWNER_ID", "TELEGRAM_API", "TELEGRAM_HASH"]:

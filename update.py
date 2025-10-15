@@ -56,6 +56,10 @@ try:
         for key, value in vars(settings).items()
         if not key.startswith("__")
     }
+    if "UPSTREAM_REPO" in config_file and isinstance(config_file["UPSTREAM_REPO"], str) and config_file[
+        "UPSTREAM_REPO"]:
+        for r_l_k, r_i_v in r_li_m.items():
+            config_file["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, config_file["UPSTREAM_REPO"], flags=IGNORECASE)
 except ModuleNotFoundError:
     log_info("Config.py file is not Added! Checking ENVs..")
     config_file = {}
@@ -65,6 +69,9 @@ env_updates = {
     for key, value in environ.items()
     if key in var_list
 }
+if "UPSTREAM_REPO" in env_updates and isinstance(env_updates["UPSTREAM_REPO"], str) and env_updates["UPSTREAM_REPO"]:
+    for r_l_k, r_i_v in r_li_m.items():
+        env_updates["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, env_updates["UPSTREAM_REPO"], flags=IGNORECASE)
 if env_updates:
     log_info("Config data is updated with ENVs!")
     config_file.update(env_updates)

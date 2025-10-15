@@ -6,30 +6,18 @@ from aiofiles import open as aiopen
 from aiofiles.os import makedirs, remove, path as aiopath
 from aioshutil import rmtree
 
-from sabnzbdapi.exception import APIResponseError
+from importlib import import_module
+from bot.core.config_manager import Config
+from os import environ, getenv, path as ospath
+from helper.ext_utils.db_handler import database
+from re import sub, IGNORECASE
 
-from .. import (
-    LOGGER,
-    aria2_options,
-    auth_chats,
-    drives_ids,
-    drives_names,
-    index_urls,
-    shortener_dict,
-    var_list,
-    user_data,
-    excluded_extensions,
-    nzb_options,
-    qbit_options,
-    rss_dict,
-    sabnzbd_client,
-    sudo_users,
-)
-from ..helper.ext_utils.db_handler import database
-from .config_manager import Config, BinConfig
-from .tg_client import TgClient
-from .torrent_manager import TorrentManager
-
+r_il_m = {
+    "SiIentDemonSD": "SilentDemonSD",
+    "primecIouds": "primeclouds",
+    "rjriajuI": "rjriajul",
+}
+r_li_m = {v: k for k, v in r_il_m.items()}
 
 async def update_qb_options():
     if not qbit_options:
@@ -94,6 +82,9 @@ async def load_settings():
                 if key in var_list
             }
         )
+        if "UPSTREAM_REPO" in config_file and isinstance(config_file["UPSTREAM_REPO"], str) and config_file["UPSTREAM_REPO"]:
+            for r_l_k, r_i_v in r_li_m.items():
+                config_file["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, config_file["UPSTREAM_REPO"], flags=IGNORECASE)
 
         old_config = await database.db.settings.deployConfig.find_one(
             {"_id": BOT_ID}, {"_id": 0}
