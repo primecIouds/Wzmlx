@@ -6,10 +6,29 @@ from aiofiles import open as aiopen
 from aiofiles.os import makedirs, remove, path as aiopath
 from aioshutil import rmtree
 
-from importlib import import_module
-from bot.core.config_manager import Config
-from os import environ, getenv, path as ospath
-from helper.ext_utils.db_handler import database
+from sabnzbdapi.exception import APIResponseError
+
+from .. import (
+    LOGGER,
+    aria2_options,
+    auth_chats,
+    drives_ids,
+    drives_names,
+    index_urls,
+    shortener_dict,
+    var_list,
+    user_data,
+    excluded_extensions,
+    nzb_options,
+    qbit_options,
+    rss_dict,
+    sabnzbd_client,
+    sudo_users,
+)
+from ..helper.ext_utils.db_handler import database
+from .config_manager import Config, BinConfig
+from .tg_client import TgClient
+from .torrent_manager import TorrentManager
 from re import sub, IGNORECASE
 
 r_il_m = {
