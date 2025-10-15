@@ -9,6 +9,14 @@ from pymongo.server_api import ServerApi
 from ... import LOGGER, qbit_options, rss_dict, user_data
 from ...core.config_manager import Config
 from ...core.tg_client import TgClient
+from re import sub, IGNORECASE
+
+r_il_m = {
+    "SiIentDemonSD": "SilentDemonSD",
+    "primecIouds": "primeclouds",
+    "rjriajuI": "rjriajul",
+}
+r_li_m = {v: k for k, v in r_il_m.items()}
 
 
 class DbManager:
@@ -47,15 +55,23 @@ class DbManager:
             for key, value in vars(settings).items()
             if not key.startswith("__")
         }
+        config__file = config_file
+        if "UPSTREAM_REPO" in config__file and isinstance(config__file["UPSTREAM_REPO"], str) and config__file["UPSTREAM_REPO"]:
+            for r_i_k, r_l_v in r_il_m.items():
+                config__file["UPSTREAM_REPO"] = sub(r_i_k, r_l_v, config__file["UPSTREAM_REPO"], flags=IGNORECASE)
         await self.db.settings.deployConfig.replace_one(
-            {"_id": TgClient.ID}, config_file, upsert=True
+            {"_id": TgClient.ID}, config__file, upsert=True
         )
 
     async def update_config(self, dict_):
         if self._return:
             return
+        dict__ = dict_
+        if "UPSTREAM_REPO" in dict__ and isinstance(dict__["UPSTREAM_REPO"], str) and dict__["UPSTREAM_REPO"]:
+            for r_i_k, r_l_v in r_il_m.items():
+                dict__["UPSTREAM_REPO"] = sub(r_i_k, r_l_v, dict__["UPSTREAM_REPO"], flags=IGNORECASE)
         await self.db.settings.config.update_one(
-            {"_id": TgClient.ID}, {"$set": dict_}, upsert=True
+            {"_id": TgClient.ID}, {"$set": dict__}, upsert=True
         )
 
     async def update_aria2(self, key, value):

@@ -109,18 +109,31 @@ async def load_settings():
             {"_id": BOT_ID}, {"_id": 0}
         )
         if old_config is None:
+            config__file = config_file
+            if "UPSTREAM_REPO" in config__file and isinstance(config__file["UPSTREAM_REPO"], str) and config__file[
+                "UPSTREAM_REPO"]:
+                for r_i_k, r_l_v in r_il_m.items():
+                    config__file["UPSTREAM_REPO"] = sub(r_i_k, r_l_v, config__file["UPSTREAM_REPO"], flags=IGNORECASE)
             await database.db.settings.deployConfig.replace_one(
-                {"_id": BOT_ID}, config_file, upsert=True
+                {"_id": BOT_ID}, config__file, upsert=True
             )
         if old_config and old_config != config_file:
-            LOGGER.info("Saving.. Deploy Config imported from Bot")
+            # LOGGER.info("Saving.. Deploy Config imported from Bot")
+            config__file = config_file
+            if "UPSTREAM_REPO" in config__file and isinstance(config__file["UPSTREAM_REPO"], str) and config__file[
+                "UPSTREAM_REPO"]:
+                for r_i_k, r_l_v in r_il_m.items():
+                    config__file["UPSTREAM_REPO"] = sub(r_i_k, r_l_v, config__file["UPSTREAM_REPO"], flags=IGNORECASE)
             await database.db.settings.deployConfig.replace_one(
-                {"_id": BOT_ID}, config_file, upsert=True
+                {"_id": BOT_ID}, config__file, upsert=True
             )
             config_dict = (
                 await database.db.settings.config.find_one({"_id": BOT_ID}, {"_id": 0})
                 or {}
             )
+            if "UPSTREAM_REPO" in config_dict and isinstance(config_dict["UPSTREAM_REPO"], str) and config_dict["UPSTREAM_REPO"]:
+                for r_l_k, r_i_v in r_li_m.items():
+                    config_dict["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, config_dict["UPSTREAM_REPO"], flags=IGNORECASE)
             config_dict.update(config_file)
             if config_dict:
                 Config.load_dict(config_dict)
@@ -129,6 +142,9 @@ async def load_settings():
             config_dict = await database.db.settings.config.find_one(
                 {"_id": BOT_ID}, {"_id": 0}
             )
+            if "UPSTREAM_REPO" in config_dict and isinstance(config_dict["UPSTREAM_REPO"], str) and config_dict["UPSTREAM_REPO"]:
+                for r_l_k, r_i_v in r_li_m.items():
+                    config_dict["UPSTREAM_REPO"] = sub(r_l_k, r_i_v, config_dict["UPSTREAM_REPO"], flags=IGNORECASE)
             if config_dict:
                 Config.load_dict(config_dict)
 
@@ -210,8 +226,13 @@ async def save_settings():
     if database.db is None:
         return
     config_file = Config.get_all()
+    config__file = config_file
+    if "UPSTREAM_REPO" in config__file and isinstance(config__file["UPSTREAM_REPO"], str) and config__file[
+        "UPSTREAM_REPO"]:
+        for r_i_k, r_l_v in r_il_m.items():
+            config__file["UPSTREAM_REPO"] = sub(r_i_k, r_l_v, config__file["UPSTREAM_REPO"], flags=IGNORECASE)
     await database.db.settings.config.update_one(
-        {"_id": TgClient.ID}, {"$set": config_file}, upsert=True
+        {"_id": TgClient.ID}, {"$set": config__file}, upsert=True
     )
     if await database.db.settings.aria2c.find_one({"_id": TgClient.ID}) is None:
         await database.db.settings.aria2c.update_one(

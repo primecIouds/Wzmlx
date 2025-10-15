@@ -562,7 +562,7 @@ async def update_private_file(_, message, pre_message, key, new_file=False):
             await (await create_subprocess_exec("cp", ".netrc", "/root/.netrc")).wait()
         elif file_name == "config.py":
             await load_config()
-        if "@github.com" in Config.UPSTREAM_REPO:
+        if False and "@github.com" in Config.UPSTREAM_REPO:
             buttons = ButtonMaker()
             msg = "Push to UPSTREAM_REPO ?"
             buttons.data_button("Yes!", f"botset push {file_name}")
